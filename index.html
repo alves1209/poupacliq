@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoupaCliq 🚀 | Simulador de Sonhos & Educação Financeira</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans (Tipografia Moderna e Amigável) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. VARIÁVEIS DE DESIGN - TEMA CLEAN FINTECH LIGHT (POUPACLIQ)
+           ========================================================================== */
+        :root {
+            /* Superfícies e Fundos */
+            --bg-page: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-subtle: #f1f5f9;
+            --bg-input: #ffffff;
+
+            /* Cores Principais PoupaCliq (Verde Dinheiro/Crescimento & Azul Fintech) */
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --primary-subtle: #ecfdf5;
+            --primary-border: #a7f3d0;
+            --accent-blue: #2563eb;
+            --accent-blue-subtle: #eff6ff;
+
+            /* Cores de Validação de Senha (Rosa, Amarelo e Ciano/Verde) */
+            --color-weak: #f43f5e;
+            --color-weak-bg: #fff1f2;
+            --color-medium: #f59e0b;
+            --color-medium-bg: #fffbeb;
+            --color-strong: #0891b2;
+            --color-strong-bg: #ecfeff;
+
+            /* Textos e Bordas */
+            --text-title: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
+
+            /* Sombras Suaves */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+            --shadow-modal: 0 20px 25px -5px rgba(15, 23, 42, 0.15), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================================================
+           2. RESET & ESTILOS BÁSICOS
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            background-image: 
+                radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 85% 90%, rgba(37, 99, 235, 0.03) 0%, transparent 40%);
+            color: var(--text-body);
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-surface {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+        }
+
+        /* ==========================================================================
+           3. CABEÇALHO GLOBAL (POUPACLIQ HEADER)
+           ========================================================================== */
+        header.app-header {
+            width: 100%;
+            max-width: 1080px;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .brand-zone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-badge {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary), #059669);
+            color: #ffffff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+
+        .brand-text h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-title);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .brand-text p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-title);
+        }
+
+        .user-chip .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .btn-logout {
+            background: var(--color-weak-bg);
+            color: var(--color-weak);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: none;
+        }
+
+        .btn-logout:hover {
+            background: var(--color-weak);
+            color: #ffffff;
+        }
+
+        /* ==========================================================================
+           4. VIEW 1: GATEWAY DE AUTENTICAÇÃO (ACESSO RESTRITO & PRÁTICO)
+           ========================================================================== */
+        #authGatewayView {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+            padding: 2.5rem 2rem;
+            transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+        }
+
+        .auth-intro {
+            text-align: center;
+            margin-bottom: 1.75rem;
+        }
+
+        .auth-pill {
+            display: inline-block;
+            background: var(--primary-subtle);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .auth-intro h2 {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--text-title);
+            margin-bottom: 0.4rem;
+        }
+
+        .auth-intro p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Abas do Gateway */
+        .gateway-nav {
+            display: flex;
+            background: var(--bg-subtle);
+            padding: 4px;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.75rem;
+            gap: 4px;
+            border: 1px solid var(--border-light);
+        }
+
+        .gateway-tab-btn {
+            flex: 1;
+            padding: 10px 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-align: center;
+        }
+
+        .gateway-tab-btn.active {
+            background: var(--bg-surface);
+            color: var(--text-title);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gateway-tab-btn.highlight {
+            color: var(--primary);
+        }
+
+        .tab-panel {
+            display: none;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .tab-panel.active {
+            display: flex;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card de Acesso Rápido */
+        .fast-access-card {
+            background: linear-gradient(180deg, var(--primary-subtle), var(--bg-surface));
+            border: 1px solid var(--primary-border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .profile-bubble {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-surface);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .profile-bubble .avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .btn-oneclick-login {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), #047857);
+            color: #ffffff;
+            border: none;
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-oneclick-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-biometrics-login {
+            width: 100%;
+            background: var(--bg-surface);
+            color: var(--text-title);
+            border: 1px solid var(--border-light);
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-biometrics-login:hover {
+            border-color: var(--primary);
+            color: #047857;
+            background: var(--primary-subtle);
+        }
+
+        /* Formulários Tradicionais */
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-field label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-title);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrap .field-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .app-input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 12px 14px 12px 42px;
+            font-family: inherit;
+            font-size: 0.92rem;
+            color: var(--text-title);
+            transition: var(--transition-smooth);
+        }
+
+        .app-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .shake {
+            animation: inputShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+            border-color: var(--color-weak) !important;
+            box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2) !important;
+        }
+
+        @keyframes inputShake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+            40%, 60% { transform: translate3d(5px, 0, 0); }
+        }
+
+        /* Validador de Senha em Tempo Real */
+        .password-validator-bar {
+            margin-top: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .track-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-subtle);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .fill-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--color-weak);
+            border-radius: 4px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .feedback-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+
+        .btn-submit-main {
+            width: 100%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 13px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .btn-submit-main:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-autofill {
+            background: var(--primary-subtle);
+            color: var(--primary);
+            border: 1px solid var(--primary-border);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .auth-fade-out {
+            opacity: 0 !important;
+            filter: blur(10px) !important;
+            transform: scale(0.96) !important;
+            pointer-events: none !important;
+        }
+
+        /* ==========================================================================
+           5. VIEW 2: APLICATIVO PRINCIPAL (POUPACLIQ: SIMULADOR DE SONHOS)
+           ========================================================================== */
+        #mainAppView {
+            display: none;
+            width: 100%;
+            max-width: 1080px;
+            padding: 0 1.5rem 3rem 1.5rem;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        #mainAppView.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Banner de Boas-Vindas */
+        .welcome-banner {
+            background: linear-gradient(135deg, #10b981, #047857);
+            color: #ffffff;
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+        }
+
+        .welcome-text h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .welcome-text p {
+            font-size: 0.95rem;
+            opacity: 0.92;
+        }
+
+        .welcome-stats {
+            display: flex;
+            gap: 12px;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .stat-badge .stat-val {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .stat-badge .stat-lbl {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.85;
+        }
+
+        /* Cards Educativos Rápidos (Dicas de Poupança) */
+        .education-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 2rem;
+        }
+
+        .edu-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1.1rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+            border-left: 4px solid var(--primary);
+        }
+
+        .edu-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .edu-card .tag {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .edu-card p {
+            font-size: 0.88rem;
+            color: var(--text-title);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .edu-card span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Grid Principal do Simulador */
+        .simulator-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 24px;
+            margin-bottom: 2rem;
+        }
+
+        .sim-panel {
+            padding: 2rem;
+        }
+
+        .sim-panel h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-title);
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sim-panel .subtitle {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Seletor de Categorias de Sonhos */
+        .dreams-picker {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 1.4rem;
+        }
+
+        .dream-btn {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 10px 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-body);
+            transition: var(--transition-smooth);
+        }
+
+        .dream-btn .icon {
+            font-size: 1.3rem;
+        }
+
+        .dream-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-subtle);
+            color: var(--primary);
+        }
+
+        .dream-btn.selected {
+            background: var(--primary-subtle);
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Painel de Resultados */
+        .result-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+        }
+
+        .result-box-highlight {
+            background: var(--primary-subtle);
+            border: 2px solid var(--primary-border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-box-highlight .amount-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .result-box-highlight .amount-value {
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: #065f46;
+            letter-spacing: -0.02em;
+        }
+
+        .result-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+        }
+
+        .detail-item .lbl {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .detail-item .val {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-title);
+        }
+
+        /* Barra de Progresso da Conclusão */
+        .progress-goal-wrap {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-goal-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-title);
+        }
+
+        .progress-goal-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--bg-subtle);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+
+        .progress-goal-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), #059669);
+            border-radius: 6px;
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Lista de Sonhos Salvos */
+        .saved-dreams-section {
+            padding: 2rem;
+        }
+
+        .saved-dreams-section h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-title);
+            margin-bottom: 0.4rem;
+        }
+
+        .saved-dreams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 1.25rem;
+        }
+
+        .dream-card-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: var(--transition-smooth);
+        }
+
+        .dream-card-item:hover {
+            border-color: var(--primary-border);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .dream-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dream-title-zone {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dream-title-zone .icon {
+            font-size: 1.3rem;
+        }
+
+        .dream-title-zone strong {
+            font-size: 0.95rem;
+            color: var(--text-title);
+        }
+
+        .btn-delete-dream {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 4px;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-delete-dream:hover {
+            color: var(--color-weak);
+        }
+
+        /* ==========================================================================
+           6. MODAIS E TOASTS
+           ========================================================================== */
+        .app-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .app-modal-overlay.active {
+            display: flex;
+        }
+
+        .app-modal-card {
+            width: 90%;
+            max-width: 440px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 2.2rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-modal);
+            animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-icon-bubble {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto 1.2rem auto;
+        }
+
+        .modal-icon-bubble.warning {
+            background: var(--color-weak-bg);
+            color: var(--color-weak);
+            border: 2px solid rgba(244, 63, 94, 0.2);
+        }
+
+        .modal-icon-bubble.biometric {
+            background: var(--primary-subtle);
+            color: var(--primary);
+            border: 2px solid var(--primary-border);
+            animation: bioPulse 1.2s infinite;
+        }
+
+        @keyframes bioPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { transform: scale(1.06); box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .btn-modal-close {
+            width: 100%;
+            background: var(--text-title);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 1.5rem;
+        }
+
+        .btn-modal-close:hover {
+            background: #000000;
+        }
+
+        .app-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--text-title);
+            color: #ffffff;
+            border-radius: var(--radius-md);
+            padding: 12px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-modal);
+            z-index: 10001;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: var(--transition-smooth);
+            pointer-events: none;
+        }
+
+        .app-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsividade */
+        @media (max-width: 900px) {
+            .simulator-layout {
+                grid-template-columns: 1fr;
+            }
+            .education-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header.app-header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .welcome-stats {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO GLOBAL -->
+    <header class="app-header">
+        <div class="brand-zone">
+            <div class="brand-badge">🚀</div>
+            <div class="brand-text">
+                <h1>PoupaCliq</h1>
+                <p>Simulador de Sonhos & Educação Financeira</p>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div class="user-chip">
+                <span class="dot"></span>
+                <span id="headerUserStatus">Acesso Restrito</span>
+            </div>
+            <button class="btn-logout" id="btnLogout" onclick="logoutSession()">Sair da Conta</button>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+         VIEW 1: GATEWAY DE AUTENTICAÇÃO (SISTEMA DE ENTRADA RESTRITO & PRÁTICO)
+         ========================================================================== -->
+    <main id="authGatewayView" class="card-surface">
+        <div class="auth-intro">
+            <span class="auth-pill">Portal Seguro</span>
+            <h2>Bem-vindo ao PoupaCliq</h2>
+            <p>Entre para planejar suas metas financeiras e simular seus sonhos.</p>
+        </div>
+
+        <!-- Abas do Gateway -->
+        <div class="gateway-nav">
+            <button type="button" class="gateway-tab-btn active highlight" id="tabBtnFast" onclick="switchGatewayTab('fast')">
+                ⚡ Acesso Rápido
+            </button>
+            <button type="button" class="gateway-tab-btn" id="tabBtnLogin" onclick="switchGatewayTab('login')">
+                Login com Senha
+            </button>
+            <button type="button" class="gateway-tab-btn" id="tabBtnRegister" onclick="switchGatewayTab('register')">
+                Novo Cadastro
+            </button>
+        </div>
+
+        <!-- ABA 1: ACESSO RÁPIDO (1-CLIQUE / BIOMETRIA) -->
+        <div id="panelFast" class="tab-panel active">
+            <div class="fast-access-card">
+                <div class="profile-bubble">
+                    <div class="avatar">P</div>
+                    <div style="text-align: left;">
+                        <strong style="font-size: 0.85rem; color: var(--text-title); display: block;">Operador PoupaCliq</strong>
+                        <span style="font-size: 0.72rem; color: var(--text-muted);">aluno@poupacliq.com</span>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
+                    Acesse imediatamente sem digitar para testar a simulação de economia.
+                </p>
+
+                <!-- BOTÃO 1-CLIQUE -->
+                <button type="button" class="btn-oneclick-login" onclick="quickLoginOneClick()">
+                    ⚡ Entrar com 1 Clique (Acesso Imediato)
+                </button>
+
+                <!-- BIOMETRIA SIMULADA -->
+                <button type="button" class="btn-biometrics-login" onclick="quickLoginBiometrics()">
+                    👆 Acesso por Biometria / Touch ID
+                </button>
+            </div>
+        </div>
+
+        <!-- ABA 2: LOGIN COM SENHA -->
+        <form id="panelLogin" class="tab-panel" onsubmit="handleManualLogin(event)" novalidate>
+            <div class="form-field">
+                <label for="loginEmail">
+                    E-mail
+                    <button type="button" class="btn-autofill" onclick="fillTestCredentials()">
+                        ⚡ Preencher Teste
+                    </button>
+                </label>
+                <div class="input-wrap">
+                    <span class="field-icon">✉️</span>
+                    <input type="email" id="loginEmail" class="app-input" placeholder="seu.email@poupacliq.com" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="loginPass">Senha</label>
+                <div class="input-wrap">
+                    <span class="field-icon">🔒</span>
+                    <input type="password" id="loginPass" class="app-input" placeholder="Digite sua senha..." autocomplete="current-password">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit-main">
+                Acessar Minha Conta ➔
+            </button>
+        </form>
+
+        <!-- ABA 3: NOVO CADASTRO (COM VALIDADOR EM TEMPO REAL) -->
+        <form id="panelRegister" class="tab-panel" onsubmit="handleManualRegister(event)" novalidate>
+            <div class="form-field">
+                <label for="regEmail">Seu E-mail</label>
+                <div class="input-wrap">
+                    <span class="field-icon">✉️</span>
+                    <input type="email" id="regEmail" class="app-input" placeholder="novo.usuario@poupacliq.com" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="regPass">
+                    Criar Senha
+                    <span id="strengthBadge" style="font-size: 0.72rem; font-weight: 700; color: var(--color-weak);">Fraca</span>
+                </label>
+                <div class="input-wrap">
+                    <span class="field-icon">🛡️</span>
+                    <input type="password" id="regPass" class="app-input" placeholder="Crie uma senha segura..." oninput="checkPasswordStrength(this.value)">
+                </div>
+
+                <!-- Medidor de Força em Tempo Real (Rosa, Amarelo e Ciano/Verde) -->
+                <div class="password-validator-bar">
+                    <div class="track-bar">
+                        <div class="fill-bar" id="meterFill"></div>
+                    </div>
+                    <div class="feedback-line">
+                        <span style="color: var(--text-muted);">Tempo de quebra: <strong id="timeToCrack" style="color: var(--text-title);">0.001s</strong></span>
+                        <span id="entropyScore" style="color: var(--text-muted); font-weight: 600;">0 bits</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit-main">
+                Cadastrar Minha Conta ➔
+            </button>
+        </form>
+    </main>
+
+    <!-- ==========================================================================
+         VIEW 2: O APLICATIVO ÚNICO (SIMULADOR DE SONHOS E ECONOMIA POUPACLIQ)
+         ========================================================================== -->
+    <section id="mainAppView">
+
+        <!-- Banner de Boas-Vindas & Saldo Simulado -->
+        <div class="welcome-banner">
+            <div class="welcome-text">
+                <h2 id="userGreeting">Olá, Operador! 🚀</h2>
+                <p>Descubra quanto você terá guardado no futuro para realizar seus maiores sonhos.</p>
+            </div>
+
+            <div class="welcome-stats">
+                <div class="stat-badge">
+                    <div class="stat-val" id="totalDreamsCount">3</div>
+                    <div class="stat-lbl">Sonhos Ativos</div>
+                </div>
+                <div class="stat-badge">
+                    <div class="stat-val" id="totalSavedSum">R$ 2.450,00</div>
+                    <div class="stat-lbl">Total Projetado</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards Educativos de Dicas de Economia -->
+        <div class="education-cards">
+            <div class="edu-card">
+                <div class="tag">⭐ Dica 1: O Poder do Hábito</div>
+                <p>R$ 20 / mês em 1 ano = <strong>R$ 240,00</strong></p>
+                <span>O segredo não é o valor inicial, mas sim a constância mensal!</span>
+            </div>
+
+            <div class="edu-card">
+                <div class="tag">⭐ Dica 2: Ritmo Médio</div>
+                <p>R$ 50 / mês em 1 ano = <strong>R$ 600,00</strong></p>
+                <span>Perfeito para comprar eletrônicos ou planejar uma viagem de férias.</span>
+            </div>
+
+            <div class="edu-card">
+                <div class="tag">⭐ Dica 3: Aceleração</div>
+                <p>R$ 100 / mês em 1 ano = <strong>R$ 1.200,00</strong></p>
+                <span>Com rendimento no Cofrinho CDI, seu dinheiro rende ainda mais!</span>
+            </div>
+        </div>
+
+        <!-- Grade Central do Simulador de Sonhos -->
+        <div class="simulator-layout">
+            
+            <!-- Painel de Configuração do Sonho -->
+            <div class="card-surface sim-panel">
+                <h3>🎯 Planejar um Novo Sonho</h3>
+                <p class="subtitle">Escolha o que deseja realizar e defina quanto você pode guardar.</p>
+
+                <!-- Seleção Rápida de Categoria de Sonho -->
+                <div class="form-field" style="margin-bottom: 12px;">
+                    <label>Qual é a sua meta?</label>
+                    <div class="dreams-picker">
+                        <button type="button" class="dream-btn selected" onclick="selectDreamCategory('✈️ Viagem de Férias', '✈️', this)">
+                            <span class="icon">✈️</span>
+                            <span>Viagem</span>
+                        </button>
+                        <button type="button" class="dream-btn" onclick="selectDreamCategory('💻 Computador / Setup', '💻', this)">
+                            <span class="icon">💻</span>
+                            <span>Eletrônico</span>
+                        </button>
+                        <button type="button" class="dream-btn" onclick="selectDreamCategory('🎓 Curso / Faculdade', '🎓', this)">
+                            <span class="icon">🎓</span>
+                            <span>Estudos</span>
+                        </button>
+                        <button type="button" class="dream-btn" onclick="selectDreamCategory('🚗 Carro / Moto', '🚗', this)">
+                            <span class="icon">🚗</span>
+                            <span>Veículo</span>
+                        </button>
+                        <button type="button" class="dream-btn" onclick="selectDreamCategory('🏠 Casa / Reforma', '🏠', this)">
+                            <span class="icon">🏠</span>
+                            <span>Casa</span>
+                        </button>
+                        <button type="button" class="dream-btn" onclick="selectDreamCategory('🛡️ Reserva de Emergência', '🛡️', this)">
+                            <span class="icon">🛡️</span>
+                            <span>Reserva</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nome Personalizado do Sonho -->
+                <div class="form-field" style="margin-bottom: 14px;">
+                    <label for="dreamName">Nome do seu Sonho</label>
+                    <div class="input-wrap">
+                        <span class="field-icon">✨</span>
+                        <input type="text" id="dreamName" class="app-input" value="Viagem de Férias Inesquecível">
+                    </div>
+                </div>
+
+                <!-- Quanto pode guardar por mês -->
+                <div class="form-field" style="margin-bottom: 14px;">
+                    <label for="monthlyAmount">Quanto você pode guardar por mês? (R$)</label>
+                    <div class="input-wrap">
+                        <span class="field-icon">💰</span>
+                        <input type="number" id="monthlyAmount" class="app-input" placeholder="Ex: 50" min="1" value="50">
+                    </div>
+                </div>
+
+                <!-- Por quanto tempo -->
+                <div class="form-field" style="margin-bottom: 14px;">
+                    <label for="monthsDuration">Por quanto tempo você vai poupar?</label>
+                    <div class="input-wrap">
+                        <span class="field-icon">📅</span>
+                        <select id="monthsDuration" class="app-input" style="padding-left: 42px;">
+                            <option value="3">3 meses (Curto prazo)</option>
+                            <option value="6">6 meses (Médio prazo)</option>
+                            <option value="12" selected>12 meses (1 ano)</option>
+                            <option value="24">24 meses (2 anos)</option>
+                            <option value="36">36 meses (3 anos)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Rendimento Simulado -->
+                <div class="form-field" style="margin-bottom: 18px;">
+                    <label for="yieldRate">Onde você vai guardar?</label>
+                    <div class="input-wrap">
+                        <span class="field-icon">📈</span>
+                        <select id="yieldRate" class="app-input" style="padding-left: 42px;">
+                            <option value="0.005" selected>Cofrinho PoupaCliq (100% CDI - Rende aprox. 0.8% ao mês)</option>
+                            <option value="0.003">Poupança Tradicional (Aprox. 0.5% ao mês)</option>
+                            <option value="0">Embaixo do Colchão (0% de rendimento)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Botão de Simulação -->
+                <button type="button" class="btn-submit-main" style="background: linear-gradient(135deg, var(--primary), #047857);" onclick="calculateDreamSimulation()">
+                    🚀 SIMULAR MINHA ECONOMIA
+                </button>
+            </div>
+
+            <!-- Painel de Resultados do Sonho -->
+            <div class="card-surface result-panel">
+                <div>
+                    <h3>🎉 Resultado da Simulação</h3>
+                    <p class="subtitle" id="simDreamSubtitle">Projeção estimada para sua meta: Viagem</p>
+
+                    <!-- Valor Total Projetado -->
+                    <div class="result-box-highlight">
+                        <div class="amount-title">Total Acumulado Futuro</div>
+                        <div class="amount-value" id="resTotalAccumulated">R$ 626,85</div>
+                    </div>
+
+                    <!-- Métricas Detalhadas -->
+                    <div class="result-details-grid">
+                        <div class="detail-item">
+                            <div class="lbl">Economia do Seu Bolso</div>
+                            <div class="val" id="resTotalDeposited">R$ 600,00</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="lbl">Rendimento Extra (Juros)</div>
+                            <div class="val" id="resTotalInterest" style="color: var(--primary);">+ R$ 26,85</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="lbl">Depósito Mensal</div>
+                            <div class="val" id="resMonthlyVal">R$ 50,00 / mês</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="lbl">Prazo Escolhido</div>
+                            <div class="val" id="resMonthsVal">12 meses (1 ano)</div>
+                        </div>
+                    </div>
+
+                    <!-- Progresso da Meta -->
+                    <div class="progress-goal-wrap">
+                        <div class="progress-goal-header">
+                            <span>Conclusão da Projeção</span>
+                            <span id="resProgressPercent">100% no prazo</span>
+                        </div>
+                        <div class="progress-goal-bar">
+                            <div class="progress-goal-fill" id="resProgressBar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-submit-main" style="background: var(--text-title);" onclick="saveCurrentDream()">
+                    💾 Salvar Este Sonho no Meu Perfil
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Seção de Sonhos Salvos -->
+        <div class="card-surface saved-dreams-section">
+            <h3>🌟 Meus Sonhos & Metas Salvas</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+                Acompanhe todas as suas metas de poupança cadastradas.
+            </p>
+
+            <div class="saved-dreams-grid" id="savedDreamsContainer">
+                <!-- Itens renderizados dinamicamente pelo JavaScript -->
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         MODAIS & ALERTA
+         ========================================================================== -->
+    <!-- Modal de Alerta / Erro -->
+    <div class="app-modal-overlay" id="alertModal">
+        <div class="app-modal-card">
+            <div class="modal-icon-bubble warning">⚠️</div>
+            <h3 id="alertModalTitle" style="font-size: 1.25rem; font-weight: 800; color: var(--text-title); margin-bottom: 0.5rem;">Atenção</h3>
+            <p id="alertModalMsg" style="font-size: 0.9rem; color: var(--text-body); line-height: 1.5;">
+                Por favor, verifique os campos informados.
+            </p>
+            <button class="btn-modal-close" onclick="closeAlertModal()">
+                Entendi, continuar
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Biometria (Simulação Rápida) -->
+    <div class="app-modal-overlay" id="biometricModal">
+        <div class="app-modal-card">
+            <div class="modal-icon-bubble biometric">👆</div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--text-title); margin-bottom: 0.5rem;">Lendo Biometria...</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+                Validando impressão digital do operador no PoupaCliq.
+            </p>
+        </div>
+    </div>
+
+    <!-- Toast Flutuante -->
+    <div class="app-toast" id="appToast">Operação realizada com sucesso!</div>
+
+    <!-- ==========================================================================
+         7. JAVASCRIPT ES6 (POUPACLIQ APLICATIVO ÚNICO)
+         ========================================================================== -->
+    <script>
+        /**
+         * ==========================================================================
+         * POUPACLIQ - SIMULADOR DE SONHOS & EDUCAÇÃO FINANCEIRA
+         * Aplicativo Único com Gateway Restrito e Acesso Prático
+         * ==========================================================================
+         */
+
+        // Estado do Aplicativo
+        const PoupaApp = {
+            currentUser: null,
+            selectedDreamCategory: { name: "✈️ Viagem de Férias", icon: "✈️" },
+
+            // Usuários Cadastrados
+            users: [
+                { email: "aluno@poupacliq.com", password: "Poupa@2026!Sec", name: "Estudante PoupaCliq" }
+            ],
+
+            // Lista de Sonhos Salvos
+            dreams: [
+                {
+                    id: 1,
+                    title: "Viagem de Férias",
+                    icon: "✈️",
+                    monthly: 50,
+                    months: 12,
+                    total: 626.85
+                },
+                {
+                    id: 2,
+                    title: "Notebook para Estudos",
+                    icon: "💻",
+                    monthly: 100,
+                    months: 12,
+                    total: 1253.70
+                },
+                {
+                    id: 3,
+                    title: "Reserva de Emergência",
+                    icon: "🛡️",
+                    monthly: 30,
+                    months: 6,
+                    total: 184.20
+                }
+            ]
+        };
+
+        // Carregar persistência local
+        (function loadStoredData() {
+            try {
+                const storedUsers = localStorage.getItem("poupacliq_users");
+                if (storedUsers) {
+                    PoupaApp.users = JSON.parse(storedUsers);
+                }
+                const storedDreams = localStorage.getItem("poupacliq_dreams");
+                if (storedDreams) {
+                    PoupaApp.dreams = JSON.parse(storedDreams);
+                }
+            } catch (_) {}
+        })();
+
+        /* ==========================================================================
+           CONTROLE DO GATEWAY DE AUTENTICAÇÃO
+           ========================================================================== */
+        function switchGatewayTab(tab) {
+            const btnFast = document.getElementById("tabBtnFast");
+            const btnLogin = document.getElementById("tabBtnLogin");
+            const btnReg = document.getElementById("tabBtnRegister");
+
+            const pnlFast = document.getElementById("panelFast");
+            const pnlLogin = document.getElementById("panelLogin");
+            const pnlReg = document.getElementById("panelRegister");
+
+            [btnFast, btnLogin, btnReg].forEach(b => b.classList.remove("active"));
+            [pnlFast, pnlLogin, pnlReg].forEach(p => p.classList.remove("active"));
+
+            if (tab === 'fast') {
+                btnFast.classList.add("active");
+                pnlFast.classList.add("active");
+            } else if (tab === 'login') {
+                btnLogin.classList.add("active");
+                pnlLogin.classList.add("active");
+            } else {
+                btnReg.classList.add("active");
+                pnlReg.classList.add("active");
+            }
+        }
+
+        // 1. Acesso Imediato com 1 Clique (Super Prático!)
+        function quickLoginOneClick() {
+            const user = PoupaApp.users[0] || { email: "aluno@poupacliq.com", name: "Estudante PoupaCliq" };
+            triggerLoginSuccess(user);
+        }
+
+        // 2. Acesso por Biometria
+        function quickLoginBiometrics() {
+            const modal = document.getElementById("biometricModal");
+            modal.classList.add("active");
+
+            setTimeout(() => {
+                modal.classList.remove("active");
+                showToast("👆 Biometria confirmada!");
+                quickLoginOneClick();
+            }, 750);
+        }
+
+        // 3. Preencher Dados de Teste no Formulário Tradicional
+        function fillTestCredentials() {
+            document.getElementById("loginEmail").value = "aluno@poupacliq.com";
+            document.getElementById("loginPass").value = "Poupa@2026!Sec";
+            showToast("Dados de teste preenchidos!");
+            document.getElementById("loginPass").focus();
+        }
+
+        // Validador de Senha em Tempo Real (Rosa, Amarelo e Ciano/Verde)
+        function checkPasswordStrength(password) {
+            const fill = document.getElementById("meterFill");
+            const badge = document.getElementById("strengthBadge");
+            const timeEl = document.getElementById("timeToCrack");
+            const entropyEl = document.getElementById("entropyScore");
+
+            if (!password || password.length === 0) {
+                fill.style.width = "0%";
+                fill.style.backgroundColor = "var(--color-weak)";
+                badge.textContent = "Fraca";
+                badge.style.color = "var(--color-weak)";
+                timeEl.textContent = "0.001s";
+                entropyEl.textContent = "0 bits";
+                return;
+            }
+
+            let pool = 0;
+            if (/[a-z]/.test(password)) pool += 26;
+            if (/[A-Z]/.test(password)) pool += 26;
+            if (/[0-9]/.test(password)) pool += 10;
+            if (/[^a-zA-Z0-9]/.test(password)) pool += 33;
+            if (pool === 0) pool = 26;
+
+            const entropy = Math.round(password.length * Math.log2(pool));
+            entropyEl.textContent = `${entropy} bits`;
+
+            const combinations = Math.pow(pool, password.length);
+            const seconds = combinations / (50 * 10**9);
+
+            let humanTime = "instantâneo";
+            if (seconds < 1) humanTime = `${(seconds * 1000).toFixed(1)}ms`;
+            else if (seconds < 60) humanTime = `${seconds.toFixed(0)} segundos`;
+            else if (seconds < 3600) humanTime = `${(seconds / 60).toFixed(0)} minutos`;
+            else if (seconds < 86400) humanTime = `${(seconds / 3600).toFixed(0)} horas`;
+            else if (seconds < 31536000) humanTime = `${(seconds / 86400).toFixed(0)} dias`;
+            else humanTime = "+100 anos";
+
+            timeEl.textContent = humanTime;
+
+            if (entropy < 40 || password.length < 6) {
+                fill.style.width = "30%";
+                fill.style.backgroundColor = "var(--color-weak)";
+                badge.textContent = "Fraca (Rosa)";
+                badge.style.color = "var(--color-weak)";
+            } else if (entropy < 65) {
+                fill.style.width = "65%";
+                fill.style.backgroundColor = "var(--color-medium)";
+                badge.textContent = "Média (Amarelo)";
+                badge.style.color = "var(--color-medium)";
+            } else {
+                fill.style.width = "100%";
+                fill.style.backgroundColor = "var(--primary)";
+                badge.textContent = "Forte (Verde/Ciano)";
+                badge.style.color = "var(--primary)";
+            }
+        }
+
+        // Login Manual
+        function handleManualLogin(e) {
+            e.preventDefault();
+            const emailIn = document.getElementById("loginEmail");
+            const passIn = document.getElementById("loginPass");
+
+            const email = emailIn.value.trim();
+            const pass = passIn.value.trim();
+
+            if (!email || !pass) {
+                if (!email) emailIn.classList.add("shake");
+                if (!pass) passIn.classList.add("shake");
+                setTimeout(() => {
+                    emailIn.classList.remove("shake");
+                    passIn.classList.remove("shake");
+                }, 400);
+
+                triggerAlertModal(
+                    "ACESSO NEGADO. CREDENCIAIS INVÁLIDAS",
+                    "Por favor, digite seu e-mail e sua senha cadastrados para acessar o PoupaCliq."
+                );
+                return;
+            }
+
+            const found = PoupaApp.users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === pass);
+
+            if (!found) {
+                emailIn.classList.add("shake");
+                passIn.classList.add("shake");
+                setTimeout(() => {
+                    emailIn.classList.remove("shake");
+                    passIn.classList.remove("shake");
+                }, 400);
+
+                triggerAlertModal(
+                    "ACESSO NEGADO. CREDENCIAIS INVÁLIDAS",
+                    "Credenciais não encontradas. Verifique seus dados ou use o botão '⚡ Preencher Teste'."
+                );
+                return;
+            }
+
+            triggerLoginSuccess(found);
+        }
+
+        // Cadastro Manual
+        function handleManualRegister(e) {
+            e.preventDefault();
+            const emailIn = document.getElementById("regEmail");
+            const passIn = document.getElementById("regPass");
+
+            const email = emailIn.value.trim();
+            const pass = passIn.value.trim();
+
+            if (!email || !pass) {
+                if (!email) emailIn.classList.add("shake");
+                if (!pass) passIn.classList.add("shake");
+                setTimeout(() => {
+                    emailIn.classList.remove("shake");
+                    passIn.classList.remove("shake");
+                }, 400);
+
+                triggerAlertModal(
+                    "Cadastro Recusado",
+                    "Preencha todos os campos obrigatórios para criar sua conta."
+                );
+                return;
+            }
+
+            if (pass.length < 6) {
+                passIn.classList.add("shake");
+                setTimeout(() => passIn.classList.remove("shake"), 400);
+                triggerAlertModal(
+                    "Senha Curta",
+                    "Crie uma senha com pelo menos 6 caracteres para garantir sua segurança."
+                );
+                return;
+            }
+
+            PoupaApp.users.push({
+                email: email,
+                password: pass,
+                name: email.split("@")[0]
+            });
+            try {
+                localStorage.setItem("poupacliq_users", JSON.stringify(PoupaApp.users));
+            } catch (_) {}
+
+            showToast("Conta criada com sucesso! Redirecionando para o login...");
+            emailIn.value = "";
+            passIn.value = "";
+
+            document.getElementById("loginEmail").value = email;
+            switchGatewayTab("login");
+            document.getElementById("loginPass").focus();
+        }
+
+        // Transição de Sucesso
+        function triggerLoginSuccess(user) {
+            PoupaApp.currentUser = user;
+
+            const gateway = document.getElementById("authGatewayView");
+            gateway.classList.add("auth-fade-out");
+
+            setTimeout(() => {
+                gateway.style.display = "none";
+                gateway.classList.remove("auth-fade-out");
+
+                document.getElementById("mainAppView").classList.add("active");
+                document.getElementById("headerUserStatus").textContent = user.email;
+                document.getElementById("btnLogout").style.display = "inline-block";
+                document.getElementById("userGreeting").textContent = `Olá, ${user.email.split("@")[0]}! 🚀`;
+
+                renderSavedDreams();
+                calculateDreamSimulation();
+                showToast("Acesso liberado! Bem-vindo(a) ao PoupaCliq!");
+            }, 350);
+        }
+
+        // Logout
+        function logoutSession() {
+            PoupaApp.currentUser = null;
+
+            document.getElementById("mainAppView").classList.remove("active");
+            const gateway = document.getElementById("authGatewayView");
+            gateway.style.display = "block";
+
+            document.getElementById("headerUserStatus").textContent = "Acesso Restrito";
+            document.getElementById("btnLogout").style.display = "none";
+            document.getElementById("loginPass").value = "";
+
+            showToast("Sessão encerrada com segurança.");
+        }
+
+        /* ==========================================================================
+           LÓGICA DO SIMULADOR DE SONHOS E ECONOMIA
+           ========================================================================== */
+        function selectDreamCategory(categoryName, icon, btn) {
+            document.querySelectorAll(".dream-btn").forEach(b => b.classList.remove("selected"));
+            btn.classList.add("selected");
+            PoupaApp.selectedDreamCategory = { name: categoryName, icon: icon };
+            document.getElementById("dreamName").value = categoryName;
+            calculateDreamSimulation();
+        }
+
+        function calculateDreamSimulation() {
+            const monthlyInput = document.getElementById("monthlyAmount");
+            const monthsSelect = document.getElementById("monthsDuration");
+            const yieldSelect = document.getElementById("yieldRate");
+            const dreamNameInput = document.getElementById("dreamName");
+
+            const monthlyVal = parseFloat(monthlyInput.value);
+            const months = parseInt(monthsSelect.value);
+            const rateMonthly = parseFloat(yieldSelect.value);
+            const dreamName = dreamNameInput.value.trim() || "Minha Meta";
+
+            if (isNaN(monthlyVal) || monthlyVal <= 0) {
+                monthlyInput.classList.add("shake");
+                setTimeout(() => monthlyInput.classList.remove("shake"), 400);
+                triggerAlertModal(
+                    "Valor Inválido",
+                    "Por favor, digite um valor maior que zero para o depósito mensal."
+                );
+                return;
+            }
+
+            // Cálculo Financeiro (Aportes mensais com juros compostos)
+            // FV = P * [ ((1 + r)^n - 1) / r ] * (1 + r)
+            let totalAccumulated = 0;
+            if (rateMonthly === 0) {
+                totalAccumulated = monthlyVal * months;
+            } else {
+                totalAccumulated = monthlyVal * ((Math.pow(1 + rateMonthly, months) - 1) / rateMonthly) * (1 + rateMonthly);
+            }
+
+            const totalDeposited = monthlyVal * months;
+            const totalInterest = Math.max(0, totalAccumulated - totalDeposited);
+
+            // Atualiza Interface
+            document.getElementById("simDreamSubtitle").textContent = `Projeção calculada para: ${dreamName}`;
+            document.getElementById("resTotalAccumulated").textContent = formatBRL(totalAccumulated);
+            document.getElementById("resTotalDeposited").textContent = formatBRL(totalDeposited);
+            document.getElementById("resTotalInterest").textContent = `+ ${formatBRL(totalInterest)}`;
+            document.getElementById("resMonthlyVal").textContent = `${formatBRL(monthlyVal)} / mês`;
+            document.getElementById("resMonthsVal").textContent = `${months} meses (${(months / 12).toFixed(1)} anos)`;
+
+            // Atualizar variáveis de estado temporárias da simulação atual
+            PoupaApp.lastSimulation = {
+                title: dreamName,
+                icon: PoupaApp.selectedDreamCategory.icon || "🎯",
+                monthly: monthlyVal,
+                months: months,
+                total: totalAccumulated
+            };
+        }
+
+        function saveCurrentDream() {
+            if (!PoupaApp.lastSimulation) {
+                calculateDreamSimulation();
+            }
+
+            const newDream = {
+                id: Date.now(),
+                title: PoupaApp.lastSimulation.title,
+                icon: PoupaApp.lastSimulation.icon,
+                monthly: PoupaApp.lastSimulation.monthly,
+                months: PoupaApp.lastSimulation.months,
+                total: PoupaApp.lastSimulation.total
+            };
+
+            PoupaApp.dreams.unshift(newDream);
+            try {
+                localStorage.setItem("poupacliq_dreams", JSON.stringify(PoupaApp.dreams));
+            } catch (_) {}
+
+            renderSavedDreams();
+            showToast("🎉 Sonho salvo no seu painel com sucesso!");
+        }
+
+        function removeDream(id) {
+            PoupaApp.dreams = PoupaApp.dreams.filter(d => d.id !== id);
+            try {
+                localStorage.setItem("poupacliq_dreams", JSON.stringify(PoupaApp.dreams));
+            } catch (_) {}
+            renderSavedDreams();
+            showToast("Meta removida.");
+        }
+
+        function renderSavedDreams() {
+            const container = document.getElementById("savedDreamsContainer");
+            container.innerHTML = "";
+
+            let totalSum = 0;
+            PoupaApp.dreams.forEach(d => {
+                totalSum += d.total;
+                const card = document.createElement("div");
+                card.className = "dream-card-item";
+                card.innerHTML = `
+                    <div class="dream-item-top">
+                        <div class="dream-title-zone">
+                            <span class="icon">${d.icon}</span>
+                            <strong>${d.title}</strong>
+                        </div>
+                        <button type="button" class="btn-delete-dream" onclick="removeDream(${d.id})" title="Remover meta">✕</button>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">
+                        Guardando <strong>${formatBRL(d.monthly)}/mês</strong> por <strong>${d.months} meses</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px;">
+                        <span style="font-size: 0.75rem; color: var(--primary); font-weight: 700; text-transform: uppercase;">Meta Acumulada</span>
+                        <strong style="font-size: 1.15rem; color: #065f46;">${formatBRL(d.total)}</strong>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            document.getElementById("totalDreamsCount").textContent = PoupaApp.dreams.length;
+            document.getElementById("totalSavedSum").textContent = formatBRL(totalSum);
+        }
+
+        function formatBRL(val) {
+            return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        /* ==========================================================================
+           MODAIS & TOAST
+           ========================================================================== */
+        function triggerAlertModal(title, msg) {
+            document.getElementById("alertModalTitle").textContent = title;
+            document.getElementById("alertModalMsg").textContent = msg;
+            document.getElementById("alertModal").classList.add("active");
+        }
+
+        function closeAlertModal() {
+            document.getElementById("alertModal").classList.remove("active");
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("appToast");
+            toast.textContent = msg;
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 2800);
+        }
+
+        document.getElementById("alertModal").addEventListener("click", (e) => {
+            if (e.target.id === "alertModal") closeAlertModal();
+        });
+    </script>
+</body>
+</html>
